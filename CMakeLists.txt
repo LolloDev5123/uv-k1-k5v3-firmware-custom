@@ -43,10 +43,7 @@ message("EXE_NAME = " ${EXE_NAME})
 
 add_executable(${EXE_NAME})
 
-add_subdirectory(Drivers)
-add_subdirectory(Middlewares)
-add_subdirectory(Core)
-add_subdirectory(App)
+add_subdirectory(src)
 
 target_link_libraries(${EXE_NAME} PRIVATE Core App)
 
