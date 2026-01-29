@@ -37,6 +37,8 @@
 #include "ui/main.h"
 #include "ui/menu.h"
 #include "apps/scanner/scanner_ui.h"
+#include "apps/scanner/scanner_ui.h"
+#include "apps/launcher/launcher.h"
 #include "ui/ui.h"
 #include "core/misc.h"
 
@@ -64,6 +66,7 @@ void (*UI_DisplayFunctions[])(void) = {
 #ifdef ENABLE_REGA
     [DISPLAY_REGA] = &UI_DisplayREGA,
 #endif
+    [DISPLAY_LAUNCHER] = &UI_DisplayLauncher,
 };
 
 static_assert(ARRAY_SIZE(UI_DisplayFunctions) == DISPLAY_N_ELEM);

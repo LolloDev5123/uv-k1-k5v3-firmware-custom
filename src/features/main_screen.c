@@ -725,7 +725,7 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
             #endif
 
             gFlagRefreshSetting = true;
-            gRequestDisplayScreen = DISPLAY_MENU;
+            gRequestDisplayScreen = DISPLAY_LAUNCHER;
             #ifdef ENABLE_VOICE
                 gAnotherVoiceID   = VOICE_ID_MENU;
             #endif

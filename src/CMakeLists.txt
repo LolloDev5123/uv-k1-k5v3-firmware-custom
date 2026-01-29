@@ -60,6 +60,7 @@ target_sources(App INTERFACE
     # Apps
     apps/battery/battery.c
     apps/battery/battery_ui.c
+    apps/launcher/launcher.c
 
     # Helpers
     # helper/battery.c MOVED

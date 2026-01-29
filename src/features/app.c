@@ -24,6 +24,7 @@
 #ifdef ENABLE_AIRCOPY
     #include "apps/aircopy/aircopy.h"
 #endif
+#include "apps/launcher/launcher.h"
 #include "features/app.h"
 #include "apps/scanner/chFrScanner.h"
 #include "features/dtmf.h"
@@ -98,6 +99,7 @@ void (*ProcessKeysFunctions[])(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld) 
 #ifdef ENABLE_AIRCOPY
     [DISPLAY_AIRCOPY] = &AIRCOPY_ProcessKeys,
 #endif
+    [DISPLAY_LAUNCHER] = &LAUNCHER_ProcessKeys,
 };
 
 #ifdef ENABLE_REGA

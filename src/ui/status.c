@@ -165,6 +165,12 @@ void UI_DisplayStatus() {
         UI_PrintStringSmallest(bat_str, x_pos, 0, true, true);
     }
     
+    
+    // Draw separator line at y=6 (Row 7)
+    for (int i = 0; i < 128; i++) {
+        gStatusLine[i] |= (1 << 6);
+    }
+
     ST7565_BlitStatusLine();
 }
 

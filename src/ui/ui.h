@@ -38,6 +38,8 @@ enum GUI_DisplayType_t
     DISPLAY_REGA,
 #endif
 
+    DISPLAY_LAUNCHER,
+
     DISPLAY_N_ELEM,
     DISPLAY_INVALID = 0xFFu
 };

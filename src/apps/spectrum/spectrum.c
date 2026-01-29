@@ -967,7 +967,7 @@ static void DrawStatus()
 #else
     sprintf(String, "%d/%d", settings.dbMin, settings.dbMax);
 #endif
-    UI_PrintStringSmallest(String, 0, 1, true, true);
+    UI_PrintStringSmallest(String, 0, 0, true, true);
 
     BOARD_ADC_GetBatteryInfo(&gBatteryVoltages[gBatteryCheckCounter++ % 4],
                              &gBatteryCurrent);
@@ -994,6 +994,11 @@ static void DrawStatus()
         {
             gStatusLine[i] = 0b00111110;
         }
+    }
+    
+    // Draw separator line at y=6 (Row 7)
+    for (int i = 0; i < 128; i++) {
+        gStatusLine[i] |= (1 << 6);
     }
 }
 
