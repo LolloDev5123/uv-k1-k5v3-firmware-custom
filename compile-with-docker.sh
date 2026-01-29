@@ -36,7 +36,7 @@ docker build -t "$IMAGE" .
 # ---------------------------------------------
 # Clean existing CMake cache to ensure toolchain reload
 # ---------------------------------------------
-rm -rf build
+docker run --rm -v "$PWD":/src -w /src "$IMAGE" rm -rf build
 
 # ---------------------------------------------
 # Function to build one preset

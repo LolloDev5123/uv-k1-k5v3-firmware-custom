@@ -337,7 +337,12 @@ const char gSubMenu_BAT_TXT[][8] =
 {
     "NONE",
     "VOLTAGE",
-    "PERCENT"
+    "PERCENT",
+    "ICON",
+    "I+VOLT",
+    "I+PERC",
+    "VOLT",
+    "PERC"
 };
 
 const char gSubMenu_BATTYP[][12] =

@@ -218,10 +218,6 @@ static void PutPixel(uint8_t x, uint8_t y, bool fill)
 {
     UI_DrawPixelBuffer(gFrameBuffer, x, y, fill);
 }
-static void PutPixelStatus(uint8_t x, uint8_t y, bool fill)
-{
-    UI_DrawPixelBuffer(&gStatusLine, x, y, fill);
-}
 #endif
 
 static void DrawVLine(int sy, int ey, int nx, bool fill)
@@ -234,37 +230,6 @@ static void DrawVLine(int sy, int ey, int nx, bool fill)
         }
     }
 }
-
-#ifndef ENABLE_FEAT_F4HWN
-static void GUI_DisplaySmallest(const char *pString, uint8_t x, uint8_t y,
-                                bool statusbar, bool fill)
-{
-    uint8_t c;
-    uint8_t pixels;
-    const uint8_t *p = (const uint8_t *)pString;
-
-    while ((c = *p++) && c != '\0')
-    {
-        c -= 0x20;
-        for (int i = 0; i < 3; ++i)
-        {
-            pixels = gFont3x5[c][i];
-            for (int j = 0; j < 6; ++j)
-            {
-                if (pixels & 1)
-                {
-                    if (statusbar)
-                        PutPixelStatus(x + i, y + j, fill);
-                    else
-                        PutPixel(x + i, y + j, fill);
-                }
-                pixels >>= 1;
-            }
-        }
-        x += 4;
-    }
-}
-#endif
 
 // Utility functions
 
@@ -1002,7 +967,7 @@ static void DrawStatus()
 #else
     sprintf(String, "%d/%d", settings.dbMin, settings.dbMax);
 #endif
-    GUI_DisplaySmallest(String, 0, 1, true, true);
+    UI_PrintStringSmallest(String, 0, 1, true, true);
 
     BOARD_ADC_GetBatteryInfo(&gBatteryVoltages[gBatteryCheckCounter++ % 4],
                              &gBatteryCurrent);
@@ -1014,7 +979,7 @@ static void DrawStatus()
     unsigned perc = BATTERY_VoltsToPercent(voltage);
 
     // sprintf(String, "%d %d", voltage, perc);
-    // GUI_DisplaySmallest(String, 48, 1, true, true);
+    // UI_PrintStringSmallest(String, 48, 1, true, true);
 
     gStatusLine[116] = 0b00011100;
     gStatusLine[117] = 0b00111110;
@@ -1074,9 +1039,9 @@ static void DrawF(uint32_t f)
     UI_PrintStringSmallNormal(String, 8, 127, 0);
 
     sprintf(String, "%3s", gModulationStr[settings.modulationType]);
-    GUI_DisplaySmallest(String, 116, 1, false, true);
+    UI_PrintStringSmallest(String, 116, 1, false, true);
     sprintf(String, "%4sk", bwOptions[settings.listenBw]);
-    GUI_DisplaySmallest(String, 108, 7, false, true);
+    UI_PrintStringSmallest(String, 108, 7, false, true);
 
 #ifdef ENABLE_FEAT_F4HWN_SPECTRUM
     ShowChannelName(f);
@@ -1098,9 +1063,9 @@ static void DrawNums()
         {
             sprintf(String, "%ux", GetStepsCount());
         }
-        GUI_DisplaySmallest(String, 0, 1, false, true);
+        UI_PrintStringSmallest(String, 0, 1, false, true);
         sprintf(String, "%u.%02uk", GetScanStep() / 100, GetScanStep() % 100);
-        GUI_DisplaySmallest(String, 0, 7, false, true);
+        UI_PrintStringSmallest(String, 0, 7, false, true);
     }
 
     if (IsCenterMode())
@@ -1108,19 +1073,19 @@ static void DrawNums()
         sprintf(String, "%u.%05u \x7F%u.%02uk", currentFreq / 100000,
                 currentFreq % 100000, settings.frequencyChangeStep / 100,
                 settings.frequencyChangeStep % 100);
-        GUI_DisplaySmallest(String, 36, 49, false, true);
+        UI_PrintStringSmallest(String, 36, 49, false, true);
     }
     else
     {
         sprintf(String, "%u.%05u", GetFStart() / 100000, GetFStart() % 100000);
-        GUI_DisplaySmallest(String, 0, 49, false, true);
+        UI_PrintStringSmallest(String, 0, 49, false, true);
 
         sprintf(String, "\x7F%u.%02uk", settings.frequencyChangeStep / 100,
                 settings.frequencyChangeStep % 100);
-        GUI_DisplaySmallest(String, 48, 49, false, true);
+        UI_PrintStringSmallest(String, 48, 49, false, true);
 
         sprintf(String, "%u.%05u", GetFEnd() / 100000, GetFEnd() % 100000);
-        GUI_DisplaySmallest(String, 93, 49, false, true);
+        UI_PrintStringSmallest(String, 93, 49, false, true);
     }
 }
 
@@ -1469,9 +1434,9 @@ static void RenderStill()
     int dbm = Rssi2DBm(scanInfo.rssi);
     uint8_t s = DBm2S(dbm);
     sprintf(String, "S: %u", s);
-    GUI_DisplaySmallest(String, 4, 25, false, true);
+    UI_PrintStringSmallest(String, 4, 25, false, true);
     sprintf(String, "%d dBm", dbm);
-    GUI_DisplaySmallest(String, 28, 25, false, true);
+    UI_PrintStringSmallest(String, 28, 25, false, true);
 
     if (!monitorMode)
     {
@@ -1501,7 +1466,7 @@ static void RenderStill()
             }
         }
         sprintf(String, "%s", registerSpecs[idx].name);
-        GUI_DisplaySmallest(String, offset + 2, row * 8 + 2, false,
+        UI_PrintStringSmallest(String, offset + 2, row * 8 + 2, false,
                             menuState != idx);
 
 #ifdef ENABLE_FEAT_F4HWN_SPECTRUM
@@ -1524,7 +1489,7 @@ static void RenderStill()
 #else
         sprintf(String, "%u", GetRegMenuValue(idx));
 #endif
-        GUI_DisplaySmallest(String, offset + 2, (row + 1) * 8 + 1, false,
+        UI_PrintStringSmallest(String, offset + 2, (row + 1) * 8 + 1, false,
                             menuState != idx);
     }
 }

@@ -195,15 +195,15 @@ void drawScore()
 
     // Level
     sprintf(str, "Level %02u", levelCountBreackout);
-    GUI_DisplaySmallest(str, 0, 1, true, true);
+    UI_PrintStringSmallest(str, 0, 1, true, true);
 
     // Ball
     sprintf(str, "Ball %02u", (ballCount < 0) ? 0 : ballCount);
-    GUI_DisplaySmallest(str, 45, 1, true, true);
+    UI_PrintStringSmallest(str, 45, 1, true, true);
 
     // Score
     sprintf(str, "Score %04u", score);
-    GUI_DisplaySmallest(str, 88, 1, true, true);
+    UI_PrintStringSmallest(str, 88, 1, true, true);
 }
 
 // Init ball
