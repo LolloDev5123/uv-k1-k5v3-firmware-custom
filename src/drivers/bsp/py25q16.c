@@ -39,7 +39,7 @@
 
 static uint32_t SectorCacheAddr = 0x1000000;
 static uint8_t SectorCache[SECTOR_SIZE];
-static uint8_t BlackHole[1];
+static uint32_t BlackHole[1];
 static volatile bool TC_Flag;
 
 static inline void CS_Assert()
