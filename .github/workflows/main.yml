@@ -3,6 +3,8 @@ name: Build Firmware
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -10,15 +12,42 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-    - name: Compile firmware
+    - name: Get build info
+      id: build_info
+      run: |
+        echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        echo "build_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        echo "full_commit=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+    - name: Build Custom firmware
       run: |
         chmod +x compile-with-docker.sh
-        ./compile-with-docker.sh
+        ./compile-with-docker.sh Custom \
+          -DGIT_COMMIT_HASH="${{ steps.build_info.outputs.commit_hash }}" \
+          -DBUILD_DATE="${{ steps.build_info.outputs.build_date }}"
 
-    - name: Upload firmware artifact
+    - name: Build Fusion firmware
+      run: |
+        ./compile-with-docker.sh Fusion \
+          -DGIT_COMMIT_HASH="${{ steps.build_info.outputs.commit_hash }}" \
+          -DBUILD_DATE="${{ steps.build_info.outputs.build_date }}"
+
+    - name: Upload Custom firmware
       uses: actions/upload-artifact@v4
       with:
-        name: firmware-artifact
-        path: compiled-firmware/f4hwn.packed.bin
+        name: deltafw-custom-${{ steps.build_info.outputs.commit_hash }}
+        path: |
+          build/Custom/*.bin
+          build/Custom/*.hex
+
+    - name: Upload Fusion firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: deltafw-fusion-${{ steps.build_info.outputs.commit_hash }}
+        path: |
+          build/Fusion/*.bin
+          build/Fusion/*.hex

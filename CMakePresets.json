@@ -69,8 +69,8 @@
                 "ENABLE_UART_RW_BK_REGS": false,
                 "ENABLE_NAVIG_LEFT_RIGHT": true,
                 "ENABLE_SWD": false,
-                "VERSION_STRING_1": "v0.22",
-                "VERSION_STRING_2": "v4.3.2"
+                "VERSION_STRING_1": "deltafw",
+                "VERSION_STRING_2": "v1.0.0"
             }
         },
         {
@@ -78,7 +78,7 @@
             "inherits": "default",
             "cacheVariables": {
                 "EDITION_STRING": "Custom",
-                "TARGET": "f4hwn.custom"
+                "TARGET": "deltafw.custom"
             }
         },
         {
@@ -95,7 +95,7 @@
                 "ENABLE_GMRS_FRS_MURS_BANDS": true,
                 "ENABLE_RESCUE_OPERATIONS": false,
                 "EDITION_STRING": "Bandscope",
-                "TARGET": "f4hwn.bandscope"
+                "TARGET": "deltafw.bandscope"
             }
         },
         {
@@ -112,7 +112,7 @@
                 "ENABLE_GMRS_FRS_MURS_BANDS": true,
                 "ENABLE_RESCUE_OPERATIONS": false,
                 "EDITION_STRING": "Broadcast",
-                "TARGET": "f4hwn.broadcast"
+                "TARGET": "deltafw.broadcast"
             }
         },
         {
@@ -136,7 +136,7 @@
                 "ENABLE_NARROWER_BW_FILTER": true,
                 "ENABLE_RESCUE_OPERATIONS": false,
                 "EDITION_STRING": "Basic",
-                "TARGET": "f4hwn.basic"
+                "TARGET": "deltafw.basic"
             }
         },
         {
@@ -154,7 +154,7 @@
                 "ENABLE_NOAA": true,
                 "ENABLE_RESCUE_OPERATIONS": true,
                 "EDITION_STRING": "RescueOps",
-                "TARGET": "f4hwn.rescueops"
+                "TARGET": "deltafw.rescueops"
             }
         },
         {
@@ -171,7 +171,7 @@
                 "ENABLE_GMRS_FRS_MURS_BANDS": true,
                 "ENABLE_RESCUE_OPERATIONS": false,
                 "EDITION_STRING": "Game",
-                "TARGET": "f4hwn.game"
+                "TARGET": "deltafw.game"
             }
         },
         {
@@ -189,7 +189,7 @@
                 "ENABLE_RESCUE_OPERATIONS": false,
                 "ENABLE_SWD": true,
                 "EDITION_STRING": "Fusion",
-                "TARGET": "f4hwn.fusion"
+                "TARGET": "deltafw.fusion"
             }
         }
     ],

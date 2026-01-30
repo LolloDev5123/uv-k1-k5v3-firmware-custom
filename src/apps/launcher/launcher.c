@@ -24,6 +24,8 @@
 #include "apps/fm/fm_ui.h"
 #include "apps/aircopy/aircopy_ui.h"
 #include "apps/boot/welcome.h"
+#include "apps/sysinfo/sysinfo.h"
+#include "apps/memories/memories.h"
 
 #include "../ui/ag_menu.h"
 
@@ -93,7 +95,8 @@ static bool LA_AirCopy(const MenuItem *item, KEY_Code_t key, bool key_pressed, b
 
 static bool LA_Info(const MenuItem *item, KEY_Code_t key, bool key_pressed, bool key_held) {
     if (key != KEY_MENU) return false;
-    UI_DisplayWelcome();
+    SYSINFO_Init();
+    gRequestDisplayScreen = DISPLAY_SYSINFO;
     return true;
 }
 

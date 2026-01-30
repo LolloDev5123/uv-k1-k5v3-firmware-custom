@@ -64,6 +64,7 @@ target_sources(App INTERFACE
     apps/battery/battery_ui.c
     apps/launcher/launcher.c
     apps/memories/memories.c
+    apps/sysinfo/sysinfo.c
 
     # Helpers
     # helper/battery.c MOVED
@@ -116,6 +117,8 @@ endif()
 target_compile_definitions(App INTERFACE
     "AUTHOR_STRING=\"${AUTHOR_STRING}\""
     "VERSION_STRING=\"${VERSION_STRING}\""
+    "GIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\""
+    "BUILD_DATE=\"${BUILD_DATE}\""
 )
 
 if(NOT SQL_TONE)
