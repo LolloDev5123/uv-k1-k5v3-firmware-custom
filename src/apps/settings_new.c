@@ -536,7 +536,7 @@ static const MenuItem displayItems[] = {
     {"Backlight Max", MENU_ABR_MAX, getVal, changeVal, NULL, NULL},
     {"Backlight Min", MENU_ABR_MIN, getVal, changeVal, NULL, NULL},
     {"Backlight Tx/Rx", MENU_ABR_ON_TX_RX, getVal, changeVal, NULL, NULL},
-    {"Channel Display", MENU_MDF, getVal, changeVal, NULL, NULL},
+    {"Channel Label", MENU_MDF, getVal, changeVal, NULL, NULL},
     {"Battery Text", MENU_BAT_TXT, getVal, changeVal, NULL, NULL},
     {"Power On Text", MENU_PONMSG, getVal, changeVal, NULL, NULL},
     #ifdef ENABLE_CUSTOM_FIRMWARE_MODS

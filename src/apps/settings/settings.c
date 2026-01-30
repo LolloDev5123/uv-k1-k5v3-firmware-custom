@@ -298,8 +298,8 @@ void SETTINGS_InitEEPROM(void)
 #endif
 
     //gSetting_TX_EN             = (Data[7] & (1u << 0)) ? true : false;
-    gSetting_live_DTMF_decoder = !!(Data[7] & (1u << 1));
-    gSetting_battery_text      = (((Data[7] >> 2) & 3u) <= 2) ? (Data[7] >> 2) & 3 : 2;
+    gSetting_live_DTMF_decoder = !!(Data[7] & (1u << 0));
+    gSetting_battery_text      = (Data[7] >> 1) & 7u;
     #ifdef ENABLE_AUDIO_BAR
         gSetting_mic_bar       = !!(Data[7] & (1u << 4));
     #endif
@@ -844,8 +844,8 @@ void SETTINGS_SaveSettings(void)
 #endif
 
     //if (!gSetting_TX_EN)             State[7] &= ~(1u << 0);
-    if (!gSetting_live_DTMF_decoder) State[7] &= ~(1u << 1);
-    State[7] = (State[7] & ~(3u << 2)) | ((gSetting_battery_text & 3u) << 2);
+    if (!gSetting_live_DTMF_decoder) State[7] &= ~(1u << 0);
+    State[7] = (State[7] & ~(7u << 1)) | ((gSetting_battery_text & 7u) << 1);
     #ifdef ENABLE_AUDIO_BAR
         if (!gSetting_mic_bar)           State[7] &= ~(1u << 4);
     #endif
