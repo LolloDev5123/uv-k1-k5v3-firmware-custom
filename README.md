@@ -9,19 +9,19 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/qshosfw/deltafw/actions/workflows/main.yml">
-    <img src="https://github.com/qshosfw/deltafw/actions/workflows/main.yml/badge.svg" alt="Build Status">
+  <a href="https://github.com/qshosfw/deltafw-k1-k5v3/actions/workflows/main.yml">
+    <img src="https://github.com/qshosfw/deltafw-k1-k5v3/actions/workflows/main.yml/badge.svg" alt="Build Status">
   </a>
-  <a href="https://github.com/qshosfw/deltafw/releases">
+  <a href="https://github.com/qshosfw/deltafw-k1-k5v3/releases">
     <img src="https://img.shields.io/github/v/release/qshosfw/deltafw?include_prereleases" alt="Latest Release">
   </a>
-  <a href="https://github.com/qshosfw/deltafw/blob/main/LICENSE">
+  <a href="https://github.com/qshosfw/deltafw-k1-k5v3/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/qshosfw/deltafw" alt="License">
   </a>
-  <a href="https://github.com/qshosfw/deltafw/issues">
+  <a href="https://github.com/qshosfw/deltafw-k1-k5v3/issues">
     <img src="https://img.shields.io/github/issues/qshosfw/deltafw" alt="Issues">
   </a>
-  <a href="https://github.com/qshosfw/deltafw/stargazers">
+  <a href="https://github.com/qshosfw/deltafw-k1-k5v3/stargazers">
     <img src="https://img.shields.io/github/stars/qshosfw/deltafw?style=flat" alt="Stars">
   </a>
 </p>
@@ -74,7 +74,7 @@
 ## 📦 Installation
 
 ### Download
-Get the latest firmware from [**Releases**](https://github.com/qshosfw/deltafw/releases).
+Get the latest firmware from [**Releases**](https://github.com/qshosfw/deltafw-k1-k5v3/releases).
 
 ### Flash with UVTools2
 
@@ -97,7 +97,7 @@ Get the latest firmware from [**Releases**](https://github.com/qshosfw/deltafw/r
 
 ```bash
 # Clone the repository
-git clone https://github.com/qshosfw/deltafw.git
+git clone https://github.com/qshosfw/deltafw-k1-k5v3.git
 cd deltafw
 
 # See all available commands
