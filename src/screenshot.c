@@ -19,6 +19,10 @@
 #include "screenshot.h"
 #include "core/misc.h"
 
+#if defined(ENABLE_USB)
+#include "drivers/bsp/vcp.h"
+#endif
+
 // RAM optimization: Only keep previousFrame static (1024 bytes)
 // Build currentFrame on-the-fly and send delta blocks immediately
 static uint8_t previousFrame[1024] = {0};
@@ -37,7 +41,18 @@ void getScreenShot(bool force)
         return;
     }
 
+    bool isConnected = false;
+
     if (UART_IsCableConnected()) {
+        isConnected = true;
+    }
+#if defined(ENABLE_USB)
+    else if (VCP_IsConnected()) {
+        isConnected = true;
+    }
+#endif
+
+    if (isConnected) {
         keepAlive = 10;
     }
 
@@ -115,7 +130,18 @@ void getScreenShot(bool force)
     };
 
     UART_Send(header, 5);
+#if defined(ENABLE_USB)
+    if (VCP_IsConnected()) VCP_Send(header, 5);
+#endif
+
     UART_Send(deltaFrame, deltaLen);
+#if defined(ENABLE_USB)
+    if (VCP_IsConnected()) VCP_Send(deltaFrame, deltaLen);
+#endif
+
     uint8_t end = 0x0A;
     UART_Send(&end, 1);
+#if defined(ENABLE_USB)
+    if (VCP_IsConnected()) VCP_Send(&end, 1);
+#endif
 }

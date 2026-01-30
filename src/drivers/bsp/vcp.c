@@ -37,3 +37,9 @@ void VCP_Init()
     NVIC_SetPriority(USBD_IRQn, 3);
     NVIC_EnableIRQ(USBD_IRQn);
 }
+
+extern volatile uint8_t dtr_enable;
+
+bool VCP_IsConnected(void) {
+    return (bool)dtr_enable;
+}
