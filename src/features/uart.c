@@ -44,6 +44,7 @@
 #include "core/misc.h"
 #include "apps/settings/settings.h"
 #include "core/version.h"
+#include "apps/battery/battery.h"
 
 #if defined(ENABLE_OVERLAY)
     #include "sram-overlay.h"
@@ -135,6 +136,8 @@ typedef struct {
     struct {
         uint16_t Voltage;
         uint16_t Current;
+        uint8_t  Percent;
+        uint8_t  BatteryType;
     } Data;
 } REPLY_0529_t;
 
@@ -193,7 +196,7 @@ typedef union
 #ifdef ENABLE_USB
 static void SendReply_VCP(void *pReply, uint16_t Size)
 {
-    static uint8_t VCP_ReplyBuf[MAX_REPLY_SIZE + sizeof(Header_t) + sizeof(Footer_t)];
+    static uint8_t VCP_ReplyBuf[MAX_REPLY_SIZE + sizeof(Header_t) + sizeof(Footer_t)] __attribute__((aligned(4)));
 
     // !!
     if (Size > MAX_REPLY_SIZE)
@@ -346,10 +349,11 @@ static void CMD_0514(uint32_t Port, const uint8_t *pBuffer)
     gFmRadioCountdown_500ms = fm_radio_countdown_500ms;
 #endif
 
-    gSerialConfigCountDown_500ms = 12; // 6 sec
+    // gSerialConfigCountDown_500ms = 12; // 6 sec
     
+
     // turn the LCD backlight off
-    BACKLIGHT_TurnOff();
+    // BACKLIGHT_TurnOff();
 
     SendVersion(Port);
 }
@@ -501,6 +505,8 @@ static void CMD_0529(uint32_t Port)
 
     // Original doesn't actually send current!
     BOARD_ADC_GetBatteryInfo(&Reply.Data.Voltage, &Reply.Data.Current);
+    Reply.Data.Percent     = BATTERY_VoltsToPercent(gBatteryVoltageAverage);
+    Reply.Data.BatteryType = gEeprom.BATTERY_TYPE;
 
     SendReply(Port, &Reply, sizeof(Reply));
 }
@@ -594,7 +600,7 @@ static void CMD_052F(uint32_t Port, const uint8_t *pBuffer)
 #endif
 
     // turn the LCD backlight off
-    BACKLIGHT_TurnOff();
+    // BACKLIGHT_TurnOff();
 
     SendVersion(Port);
 }
@@ -677,13 +683,25 @@ bool UART_IsCommandAvailable(uint32_t Port)
         return false;
     }
 
-    while (1)
+    // Limit iterations to prevent long loops when buffer is full of non-command data
+    uint16_t maxIterations = ReadBufSize + 1;
+
+    while (maxIterations--)
     {
         if ((*pReadPointer) == DmaLength)
             return false;
 
-        while ((*pReadPointer) != DmaLength && ReadBuf[*pReadPointer] != 0xABU)
+        // Find 0xAB with iteration limit
+        uint16_t searchLimit = ReadBufSize;
+        while ((*pReadPointer) != DmaLength && ReadBuf[*pReadPointer] != 0xABU && searchLimit--)
             *pReadPointer = DMA_INDEX((*pReadPointer), 1, ReadBufSize);
+
+        if (searchLimit == 0)
+        {
+             // Too many bytes without finding 0xAB - sync to current position and exit
+             *pReadPointer = DmaLength;
+             return false;
+        }
 
         if ((*pReadPointer) == DmaLength)
             return false;
@@ -700,6 +718,13 @@ bool UART_IsCommandAvailable(uint32_t Port)
             break;
 
         *pReadPointer = DMA_INDEX(*pReadPointer, 1, ReadBufSize);
+    }
+
+    if (maxIterations == 0)
+    {
+        // Safety: too many outer loop iterations
+        *pReadPointer = DmaLength;
+        return false;
     }
 
     Index = DMA_INDEX(*pReadPointer, 2, ReadBufSize);
